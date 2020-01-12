@@ -1,25 +1,27 @@
 package displayelement;
 
-import observer.Observer;
-import subject.Subject;
+import weatherdata.WeatherData;
+
+import java.util.Observable;
+import java.util.Observer;
 
 public class CurrentConditionsDisplay implements Observer, DisplayElement {
-    // To cancel the registration of observers
-    private final Subject weatherData;
     private double temperature;
     private double humidity;
     private double pressure;
 
-    public CurrentConditionsDisplay(Subject weatherData) {
-        this.weatherData = weatherData;
-        weatherData.registerObserver(this);
+    public CurrentConditionsDisplay(Observable observable) {
+        observable.addObserver(this);
     }
 
     @Override
-    public void update(double temperature, double humidity, double pressure) {
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.pressure = pressure;
+    public void update(Observable observable, Object arg) {
+        if (observable instanceof WeatherData) {
+            WeatherData weatherData = (WeatherData) observable;
+            this.temperature = weatherData.getTemperature();
+            this.humidity = weatherData.getHumidity();
+            this.pressure = weatherData.getPressure();
+        }
     }
 
     @Override
