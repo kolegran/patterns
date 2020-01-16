@@ -1,3 +1,3 @@
 ## List of examples
 
-*Observer
+1. Observer
